@@ -1,0 +1,120 @@
+
+/***************************** Main styles *****************************/
+/*html * {outline:1px solid lightgray;}*/
+
+.container{
+background:#fafafa;
+text-align: center;
+height: 310px;
+min-height: 310px;
+margin:0 auto 0;
+position: relative;
+padding-top:10px;
+
+}
+.news-container{
+background:#fafafa;
+height: auto !important;
+height: 385px;
+margin:0 auto 0;
+position: relative;
+font-size:11px;
+line-height:13px;
+}
+
+#world, #sport{
+    display:inline-block;
+    padding:10px;
+    border-radius:3px 3px 0 0;
+    text-decoration:none;
+    color:black;
+}
+#world.active, #sport.active{
+    border:1px solid #ddd;
+    border-bottom:0;
+    color:gray;
+    background:#fafafa;
+    z-index: 2;
+    position:relative;
+    top:1px;
+}
+
+.item{
+    margin-bottom:15px;
+}
+.item-head {
+    color:#039;
+}
+.item-date{
+    color:#999;
+    margin-bottom: 5px
+}
+#sport-wrapper{
+    display:none;
+    border:1px solid #ddd;
+    padding:10px;
+}
+#world-wrapper{
+    border:1px solid #ddd;
+    padding:10px;
+}
+.more {
+    position: relative;
+    top:-5px;
+}
+
+.content {
+    padding:10px;
+}
+.news-container .content{
+    border:1px solid #ddd;
+    height: 363px;
+}
+
+.container img {
+    padding:20px;
+    display:inline-block;
+    background:white;
+    border: 1px solid gray;
+}
+.temp {
+    display:inline-block;
+    width:150px;
+}
+
+.name {
+    font-size:30px;
+    line-height: 36px
+}
+.country {
+    font-size:24px;
+    color:gray;
+    line-height: 24px
+}
+.current {
+    line-height: 24px;
+    font-size:24px;
+}
+.temp-main {
+    font-size:40px;
+    line-height:48px;
+}
+.gray {
+    color:gray;
+}
+
+hr {
+    margin:20px;
+}
+
+/***************************** Main Classes *****************************/
+
+.clear {clear:both; }
+.hide { display: none!important; }
+.show { display: block!important; }
+.no-marg { margin: 0!important; }
+.no-padd { padding: 0!important; }
+.no-bg { background: none!important; }
+.no-border { border: none!important; }
+
+/***************************** Styles *****************************/

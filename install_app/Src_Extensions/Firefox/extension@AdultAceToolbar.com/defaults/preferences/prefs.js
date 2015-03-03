@@ -1,0 +1,1 @@
+pref("extensions.adult-ace-toolbar.firstrun", true);

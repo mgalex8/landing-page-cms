@@ -1,0 +1,2 @@
+content adultace chrome/
+overlay	chrome://browser/content/browser.xul chrome://adultace/content/adultace.xul

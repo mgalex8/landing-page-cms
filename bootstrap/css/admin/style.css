@@ -1,0 +1,73 @@
+.sites-container > div > .btn,
+.urls-container > div > .btn{ 
+    position:relative;
+    top:-5px;
+    padding:4px 7px;
+}
+.sites-container > div:first-child > .btn-danger,
+.urls-container > div:first-child > .btn-danger{ 
+    display:none;
+}
+.urls-container > div {
+    position:relative;
+}
+.urls-container > div > .dragger {
+    padding:4px 7px;
+    position:absolute;
+    top:0px;
+    right:170px;
+    cursor:pointer;
+    opacity:0.5;
+}
+.urls-container > div {
+    background:white;
+    
+}
+.block-user{
+    padding: 10px 0 10px 0;
+}
+.error{
+    color: red;
+    padding-bottom: 16px;
+}
+.image-file-url{
+    overflow:hidden; 
+    width: 262px;    
+}
+.fileform { 
+    background-color: #FFFFFF;        
+    cursor: pointer;
+    height: 30px;
+    overflow: hidden;    
+    position: relative;
+    text-align: left;
+    vertical-align: middle;
+    width: 87px;
+} 
+.fileform #upload{
+    position:absolute; 
+    top:0; 
+    left:0; 
+    width:87px;
+    -moz-opacity: 0; 
+    filter: alpha(opacity=0); 
+    opacity: 0; 
+    font-size: 150px; 
+    height: 30px; 
+    z-index:20;
+}
+.margin-left4{
+    margin-left: 4px;
+}
+.margin-left31{
+    margin-left: 31px;  
+}
+.align-right{
+    text-align:right;
+}
+.search-group-btn{
+    display: inline;
+    position: relative;
+    top: -5px;
+    left: -7px;
+}

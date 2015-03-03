@@ -1,0 +1,10 @@
+/application/config/general.php
+/application/config/database.php
+/application/bootstrap.php
+/application/logs/*
+/application/cache/*
+/nbproject
+/images/upload/*
+.idea
+.htaccess
+*~

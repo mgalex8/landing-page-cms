@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2011.02.10 15:28:24.257.dproj,C:\Documents and Settings\Kalashnikov\Мои документы\RAD Studio\Projects\Project1.dproj=E:\Projects\MyBHO\MyBho.dproj</Transaction>
+    <Transaction>2011.02.10 15:29:21.648.pas,E:\Projects\MyBHO\Unit1.pas=E:\Projects\MyBHO\BhoShell.pas</Transaction>
+    <Transaction>2011.02.10 15:31:36.335.pas,E:\Projects\MyBHO\Unit1.pas=E:\Projects\MyBHO\ShDocVwEvents.pas</Transaction>
+    <Transaction>2011.02.10 15:32:53.413.pas,E:\Projects\MyBHO\Unit1.pas=E:\Projects\MyBHO\BhoShellHost.pas</Transaction>
+    <Transaction>2011.03.03 14:31:26.122.dproj,A:\DropDownDeals\2.Pricebum\src\MyBho.dproj=A:\DropDownDeals\2.Pricebum\src\Pricebum.dproj</Transaction>
+    <Transaction>2011.03.29 11:13:56.394.dproj,A:\DropDownDeals\3.Pagemood\src\Pricebum.dproj=A:\DropDownDeals\3.Pagemood\src\Pagemood.dproj</Transaction>
+    <Transaction>2011.06.23 14:45:51.149.pas,\\192.168.1.1\applications\DropDownDeals\3.Pagemood\2.with_app_ID\src\WinSystemFunctionsUnit.pas=</Transaction>
+    <Transaction>2011.08.08 15:49:04.210.dproj,A:\PPV\1.PPV Software\src_ie\Pagemood.dproj=A:\PPV\1.PPV Software\src_ie\PPVSoftware.dproj</Transaction>
+    <Transaction>2011.08.30 15:51:18.826.dproj,\\192.168.1.1\applications\PPV\2.FreeFrog\src_ie\PPVSoftware.dproj=\\192.168.1.1\applications\PPV\2.FreeFrog\src_ie\FreeFrog.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

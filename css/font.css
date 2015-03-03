@@ -1,0 +1,77 @@
+@font-face {
+    font-family: 'pf_agora_slab_problack';
+    src: url('../font/pfagoraslabpro-black-webfont.eot');
+    src: url('../font/pfagoraslabpro-black-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../font/pfagoraslabpro-black-webfont.woff2') format('woff2'),
+         url('../font/pfagoraslabpro-black-webfont.woff') format('woff'),
+         url('../font/pfagoraslabpro-black-webfont.ttf') format('truetype'),
+         url('../font/pfagoraslabpro-black-webfont.svg#pf_agora_slab_problack') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'pf_agora_slab_probold';
+    src: url('../font/pfagoraslabpro-bold-webfont.eot');
+    src: url('../font/pfagoraslabpro-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../font/pfagoraslabpro-bold-webfont.woff2') format('woff2'),
+         url('../font/pfagoraslabpro-bold-webfont.woff') format('woff'),
+         url('../font/pfagoraslabpro-bold-webfont.ttf') format('truetype'),
+         url('../font/pfagoraslabpro-bold-webfont.svg#pf_agora_slab_probold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'pf_agora_slab_prolight';
+    src: url('../font/pfagoraslabpro-light-webfont.eot');
+    src: url('../font/pfagoraslabpro-light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../font/pfagoraslabpro-light-webfont.woff2') format('woff2'),
+         url('../font/pfagoraslabpro-light-webfont.woff') format('woff'),
+         url('../font/pfagoraslabpro-light-webfont.ttf') format('truetype'),
+         url('../font/pfagoraslabpro-light-webfont.svg#pf_agora_slab_prolight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'pf_agora_slab_promedium';
+    src: url('../font/pfagoraslabpro-medium-webfont.eot');
+    src: url('../font/pfagoraslabpro-medium-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../font/pfagoraslabpro-medium-webfont.woff2') format('woff2'),
+         url('../font/pfagoraslabpro-medium-webfont.woff') format('woff'),
+         url('../font/pfagoraslabpro-medium-webfont.ttf') format('truetype'),
+         url('../font/pfagoraslabpro-medium-webfont.svg#pf_agora_slab_promedium') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'pf_agora_slab_proregular';
+    src: url('../font/pfagoraslabpro-reg-webfont.eot');
+    src: url('../font/pfagoraslabpro-reg-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../font/pfagoraslabpro-reg-webfont.woff2') format('woff2'),
+         url('../font/pfagoraslabpro-reg-webfont.woff') format('woff'),
+         url('../font/pfagoraslabpro-reg-webfont.ttf') format('truetype'),
+         url('../font/pfagoraslabpro-reg-webfont.svg#pf_agora_slab_proregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'pf_agora_slab_proultrablack';
+    src: url('../font/pfagoraslabpro-ultrablack-webfont.eot');
+    src: url('../font/pfagoraslabpro-ultrablack-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../font/pfagoraslabpro-ultrablack-webfont.woff2') format('woff2'),
+         url('../font/pfagoraslabpro-ultrablack-webfont.woff') format('woff'),
+         url('../font/pfagoraslabpro-ultrablack-webfont.ttf') format('truetype'),
+         url('../font/pfagoraslabpro-ultrablack-webfont.svg#pf_agora_slab_proultrablack') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'pf_agora_slab_proextrathin';
+    src: url('../font/pfagoraslabpro-xthin-webfont.eot');
+    src: url('../font/pfagoraslabpro-xthin-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../font/pfagoraslabpro-xthin-webfont.woff2') format('woff2'),
+         url('../font/pfagoraslabpro-xthin-webfont.woff') format('woff'),
+         url('../font/pfagoraslabpro-xthin-webfont.ttf') format('truetype'),
+         url('../font/pfagoraslabpro-xthin-webfont.svg#pf_agora_slab_proextrathin') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}

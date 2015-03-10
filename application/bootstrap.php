@@ -30,7 +30,7 @@ date_default_timezone_set('America/Chicago');
  * @link http://kohanaframework.org/guide/using.configuration
  * @link http://www.php.net/manual/function.setlocale
  */
-setlocale(LC_ALL, 'en_US.utf-8');
+setlocale(LC_ALL, 'ru_RU.utf-8');
 
 /**
  * Enable the Kohana auto-loader.
@@ -61,7 +61,7 @@ ini_set('unserialize_callback_func', 'spl_autoload_call');
 /**
  * Set the default language
  */
-I18n::lang('en-us');
+I18n::lang('ru-ru');
 
 /**
  * Set Kohana::$environment if a 'KOHANA_ENV' environment variable has been supplied.
@@ -130,13 +130,6 @@ Kohana::modules(array(
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
  * defaults for the URI.
  */
-Route::set('api', 'api(/<controller>(/<action>(/<id>)))', array('directory' => 'api'))
-	->defaults(array(
-        'directory'  => 'api',
-		'controller' => 'index',
-		'action'     => 'index',
-		'id'         => NULL,
-	));
 
 Route::set('admin', 'admin(/<controller>(/<action>))', array('directory' => 'admin'))
 	->defaults(array(
@@ -147,7 +140,7 @@ Route::set('admin', 'admin(/<controller>(/<action>))', array('directory' => 'adm
 
 Route::set('default', '(<controller>(/<action>(/<id>)))')
 	->defaults(array(
-            'directory' => 'admin',
-            'controller' => 'login',
+            'directory' => 'site',
+            'controller' => 'index',
             'action'     => 'index',
 	));

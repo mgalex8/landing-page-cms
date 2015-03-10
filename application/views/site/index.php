@@ -366,10 +366,16 @@
     <footer id="kontakt">
     <div class="footer">
             <div class="foot_left">
-                    Позвоните <?php echo $positions['footer_phone']; ?> или<br> напишите e-mail: <?php echo $positions['footer_email']; ?>
+                    Позвоните <?php if (array_key_exists('header_phone', $positions)) {
+                                  echo $positions['header_phone']; 
+                              } ?> или<br> напишите e-mail: <?php if (array_key_exists('header_email', $positions)) {
+                                  echo $positions['header_email']; 
+                              } ?>
             </div>
             <div class="foot_right">
-                    <p><span> &copy; 2014-<?php echo date('Y'); ?> <?php echo $positions['company_name']; ?></span> <a href="#o_nas"><img src="<?php echo URL:: base(true) ?>images/logo.png" alt=""></a></p>
+                    <p><span> &copy; 2014-<?php echo date('Y'); ?> <?php if (array_key_exists('company_name', $positions)) {
+                                  echo $positions['company_name']; 
+                              } ?></span> <a href="#o_nas"><img src="<?php echo URL:: base(true) ?>images/logo.png" alt=""></a></p>
             </div>
     </div>
     </footer>

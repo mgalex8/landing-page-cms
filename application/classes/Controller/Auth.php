@@ -14,7 +14,7 @@ class Controller_Auth extends Controller_Base {
                 Session::instance()->set('requestedUrl', $this->request->uri());
                 Controller::redirect( Route::get('admin')->uri(array('controller' => 'Login', 'action' => 'Index')) );
             }
-        }
+        }                
     }
 
 }

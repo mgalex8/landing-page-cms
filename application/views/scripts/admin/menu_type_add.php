@@ -12,18 +12,14 @@
                             }    
                         ?>
                     </div></td>
-            </tr>                    
+            </tr>                                
             <tr>
                 <td class="span2"><?php echo __('ID'); ?>*:</td>
-                <td><input type="text" name="name" value="<?php echo $result['position']['name']; ?>" /></td>
-            </tr>
+                <td><input type="text" name="name" value="<?php echo $result['menu']['name']; ?>" /></td>
+            </tr>           
             <tr>
                 <td class="span2"><?php echo __('Title'); ?>*:</td>
-                <td><input type="text" name="title" value="<?php echo $result['position']['title']; ?>" /></td>
-            </tr>
-            <tr>
-                <td class="span2"><?php echo __('Text'); ?>*:</td>
-                <td><input type="text" name="text" value="<?php echo $result['position']['text']; ?>" /></td>                    
+                <td><input type="text" name="title" value="<?php echo $result['menu']['title']; ?>" /></td>                    
             </tr>
             <tr>
                 <td class="span2" colspan="2">&nbsp</td>

@@ -3,7 +3,7 @@
     <form action="<?php echo $result['action_url']; ?>" method="post">
         <table>
             <tr>
-                <td class="span1"></td>
+                <td class="span2"></td>
                 <td><div class="error errors">                        
                         <?php
                             foreach ($result['errors'] as $err)

@@ -27,7 +27,7 @@
         <div class="navbar navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container">
-                    <a class="brand" href="#"><?php echo Kohana::$config->load('general')->get('site_name') ?></a>
+                    <a class="brand" href="/"><?php echo Kohana::$config->load('general')->get('site_name') ?></a>
                     <?php if (Auth::instance()->logged_in('admin')) { ?>
                     <ul class="nav">
                         <li <?php if (Request::$current->controller() == 'slider') echo 'class="active"' ?>>
@@ -48,9 +48,10 @@
                     </ul>
                     <form class="navbar-form pull-right">
                         <ul class="nav">                            
-                            <li><a class="btn btn-default" href="<?php echo URL::base() . Route::get('admin')->uri(array('controller' => 'structures', 'action' => 'index')) ?>"><i class="icon-list"></i></a></li>
-                            <li><a class="btn btn-default" href="<?php echo URL::base() . Route::get('admin')->uri(array('controller' => 'users', 'action' => 'index')) ?>"><i class="icon-user"></i></a></li>
-                            <li><a class="btn btn-default" href="<?php echo URL::base() . Route::get('admin')->uri(array('controller' => 'options', 'action' => 'index')) ?>"><i class="icon-cog"></i></a></li>
+                            <li><a title="<?php echo __('Structures'); ?>" class="btn btn-default"href="<?php echo URL::base() . Route::get('admin')->uri(array('controller' => 'structures', 'action' => 'index')) ?>"><i class="icon-indent-left"></i></a></li>
+                            <li><a title="<?php echo __('Menus'); ?>" class="btn btn-default" href="<?php echo URL::base() . Route::get('admin')->uri(array('controller' => 'menus', 'action' => 'index')) ?>"><i class="icon-list"></i></a></li>
+                            <li><a title="<?php echo __('Users'); ?>" class="btn btn-default" href="<?php echo URL::base() . Route::get('admin')->uri(array('controller' => 'users', 'action' => 'index')) ?>"><i class="icon-user"></i></a></li>
+                            <li><a title="<?php echo __('Settings'); ?>" class="btn btn-default" href="<?php echo URL::base() . Route::get('admin')->uri(array('controller' => 'settings', 'action' => 'index')) ?>"><i class="icon-cog"></i></a></li>
                             <li><a href="<?php echo URL::base() . Route::get('admin')->uri(array('controller' => 'login', 'action' => 'logout')) ?>"><?php echo __('Logout') ?></a></li>
                         </ul>
                     </form>

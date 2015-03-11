@@ -1,25 +1,18 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Admin_Fields extends Controller_Auth
+class Controller_Admin_Menus extends Controller_Auth
 {
     public $template = 'layouts/admin';
     
-    public $modelName = 'Fields';
+    public $modelName = 'MenuTypes';
 
     
     public function action_index()
     {
-        $structure_id = Arr::get($_GET, 'structure', null);
-        $orm = ORM::factory('Structures', $structure_id);
-        if(!$orm->loaded())
-        {             
-            throw HTTP_Exception::factory(404, 'Structure not found!');
-        }
-        
         if (!empty($_POST['delete'])) {
             $this->_delete(array_keys($_POST['delete']));
         }
-        $view = View::factory('scripts/admin/fields');
+        $view = View::factory('scripts/admin/menu_types');
         $page = intval(Arr::get($_GET, 'page', 1));
         if ($page < 1) {
             $page = 1;
@@ -27,34 +20,35 @@ class Controller_Admin_Fields extends Controller_Auth
         $view->page = $page;
         $per_page = 10;       
         
-        $this->template->title = "Fields";        
+        $this->template->title = "Menus";        
         $pagination_view = new View('pagination/pages');
         $pagination_view->page = $page;
         $pagination_view->perpage = $per_page;        
-        $pagination_view->count_all = ORM::factory( $this->modelName )->where('structure_id','=',$structure_id)->count_all();
+        $pagination_view->count_all = ORM::factory( $this->modelName )->count_all();
         $view->pagination = $pagination_view->render();                
         
-        $fields = array();
+        $menus = array();
         $orm = ORM::factory( $this->modelName )
-                        ->where('structure_id','=',$structure_id)
                         ->order_by('id','asc')
                         ->limit($per_page)
                         ->offset(($page - 1) * $per_page)
                         ->find_all(); 
         foreach ($orm as $item)
         {
-            $fields[] = array(
+            $menus[] = array(
                 'id' => $item->id,
                 'name' => $item->name,
                 'title' => $item->title,
                 'i18n' => $item->i18n,                
-                'edit_url' => URL::base(true) . '/admin/fields/addedit?structure=' . $structure_id . '&id=' . $item->id,
+                'edit_menu_url' => URL::base(true) . 'admin/menuitems?type=' . $item->id,
+                'edit_url' => URL::base(true) . 'admin/menus/addedit?id=' . $item->id,
             );
         }
         
         $view->result = array(
-            'fields' => $fields,      
-            'add_url' => URL::base(true) . '/admin/fields/addedit?structure=' . $structure_id,
+            'menus' => $menus,
+            'add_url' => URL::base(true) . 'admin/menus/addedit',
+            
         );        
 	$this->display($view);
     }
@@ -62,52 +56,36 @@ class Controller_Admin_Fields extends Controller_Auth
 
     public function action_addedit()
     {
-        $structure_id = Arr::get($_GET, 'structure', null);
-        $orm = ORM::factory('Structures', $structure_id);
-        if(!$orm->loaded())
-        {             
-            throw HTTP_Exception::factory(404, 'Structure not found!');
-        }
-        
-        $view = View::factory('scripts/admin/field_add');
+        $view = View::factory('scripts/admin/menu_type_add');
         $errors = array();        
         $id = Arr::get($_GET, 'id', '');
         
         if(empty($id)) {
             $action = 'Add';
-            $this->template->title = __("Add Field");
-            $field = array(
+            $this->template->title = __("Add Menu");
+            $menu_type = array(
                 'id'=>'', 
                 'name'=>'', 
                 'title'=>'',   
                 'i18n'=>'',
-                'structure_id'=>$structure_id,
-                'param1' => '',
-                'param2' => '',
-                'multiply' => '',
             );
         }   
         else {
             $action = 'Edit';
-            $this->template->title = __("Edit Field");
+            $this->template->title = __("Edit Menu");
             
             $edit = ORM::factory( $this->modelName, $id);
             if($edit->loaded())
             {
-                 $field = array(
+                 $menu_type = array(
                      'id' => $id,
                      'name' => $edit->name,
-                     'title' => $edit->title,
-                     'i18n' => $edit->i18n,                     
-                     'structure_id'=>$edit->structure_id,
-                     'param1' => $edit->param1,
-                     'param2' => $edit->param2,
-                     'multiply' => $edit->multiply,
+                     'title' => $edit->title,                     
                  );
             }
             else
             {
-                throw HTTP_Exception::factory(404, 'Field not found!');
+                throw HTTP_Exception::factory(404, 'Menu not found!');
             }
         }
         
@@ -115,13 +93,8 @@ class Controller_Admin_Fields extends Controller_Auth
         {   
             $post = array();
             $post['name'] = Arr::get($_POST, 'name');
-            $post['title'] = Arr::get($_POST, 'title');            
-            $post['i18n'] = Arr::get($_POST, 'i18n', null);
-            $post['param1'] = Arr::get($_POST, 'param1', null);
-            $post['param2'] = Arr::get($_POST, 'param2', null);
-            $post['structure_id'] = Arr::get($_POST, 'structure_id', null);
-            $post['multiply'] = (Arr::get($_POST, 'multiply', '') == 'on');
-            $field = $post;
+            $post['title'] = Arr::get($_POST, 'title');
+            $menu_type = $post;
             
             // Validation
             $errors = array();
@@ -146,16 +119,15 @@ class Controller_Admin_Fields extends Controller_Auth
                             ->save();
                 }
                 // Redirect
-                $route = Route::get('admin')->uri(array('controller' => 'fields', 'action' => 'index'));
-                $qs = '?structure=' . $structure_id . '&id=' . $id;
-                Controller::redirect( URL::base(true) . $route . $qs );
+                $route = Route::get('admin')->uri(array('controller' => 'menus', 'action' => 'index'));                            
+                Controller::redirect( URL::base(true) . $route);
             }
         } 
                 
         $view->result = array(  
-            'title' => __($action . ' Field'),
-            'action_url' => URL::base(true) . '/admin/fields/addedit?structure=' . $structure_id . '&id=' . $id,
-            'field' => $field,
+            'title' => __($action . ' Menu'),
+            'action_url' => URL::base(true) . 'admin/menus/addedit?id=' . $id,
+            'menu' => $menu_type,
             'errors' => $errors,
         );
         $this->display($view);

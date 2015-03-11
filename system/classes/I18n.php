@@ -25,3 +25,15 @@ class I18n extends Kohana_I18n {
     }
         
 }
+
+function i18n($i18n, $phrase, array $values = NULL, $lang = 'en-us')
+{
+    if ($lang !== I18n::$lang)
+    {
+            // The message and target languages are different
+            // Get the translation for this message
+            $string = __($phrase);
+    }
+
+    return empty($values) ? $string : strtr($string, $values);
+}

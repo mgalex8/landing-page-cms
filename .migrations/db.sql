@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: zuzdb11
--- Generation Time: Mar 11, 2015 at 01:04 PM
+-- Generation Time: Mar 11, 2015 at 06:56 PM
 -- Server version: 5.1.73-log
 -- PHP Version: 5.3.3
 
@@ -78,6 +78,28 @@ CREATE TABLE IF NOT EXISTS `i18n` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `languages`
+--
+
+CREATE TABLE IF NOT EXISTS `languages` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lang` varchar(5) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `i18n` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `languages`
+--
+
+INSERT INTO `languages` (`id`, `lang`, `title`, `i18n`) VALUES
+(1, 'ru-ru', 'Русский', 'Russian'),
+(2, 'en-us', 'Английский', 'English');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `menu_items`
 --
 
@@ -90,9 +112,20 @@ CREATE TABLE IF NOT EXISTS `menu_items` (
   `route` varchar(255) NOT NULL,
   `controller` varchar(255) NOT NULL,
   `action` varchar(255) NOT NULL,
+  `qs` varchar(255) NOT NULL,
   `classes` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `menu_items`
+--
+
+INSERT INTO `menu_items` (`id`, `type_id`, `name`, `i18n`, `href`, `route`, `controller`, `action`, `qs`, `classes`) VALUES
+(1, 1, 'Слайдер', 'Slider', '', 'admin', 'content', 'index', 'structure=slider', ''),
+(2, 1, 'Услуги', 'Services', '', 'admin', 'content', 'index', 'structure=services', ''),
+(3, 1, 'Портфолио', 'Portfolio', '', 'admin', 'content', 'index', 'structure=portfolio', ''),
+(4, 1, 'Отзывы', 'Reviews', '', 'admin', 'content', 'index', 'structure=reviews', '');
 
 -- --------------------------------------------------------
 
@@ -104,8 +137,16 @@ CREATE TABLE IF NOT EXISTS `menu_types` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
+  `i18n` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `menu_types`
+--
+
+INSERT INTO `menu_types` (`id`, `name`, `title`, `i18n`) VALUES
+(1, 'admin_menu', 'admin_menu', '');
 
 -- --------------------------------------------------------
 
@@ -174,6 +215,25 @@ INSERT INTO `roles_users` (`user_id`, `role_id`) VALUES
 CREATE TABLE IF NOT EXISTS `schema_version` (
   `version` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `settings`
+--
+
+CREATE TABLE IF NOT EXISTS `settings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `settings` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `settings`
+--
+
+INSERT INTO `settings` (`id`, `settings`) VALUES
+(1, '{"lang":"ru-ru","admin_menu":"1"}');
 
 -- --------------------------------------------------------
 

@@ -2,15 +2,15 @@
 
 defined('SYSPATH') or die('No direct script access.');
 
-class Model_Fields extends ORM
+class Model_MenuItems extends ORM
 {
-    protected $_table_name  = 'x_fields';
+    protected $_table_name  = 'menu_items';
     protected $_primary_key = 'id';    
 
     public function rules()
     {
-        return array( 
-            'structure_id' => array(
+        return array(                        
+            'type_id' => array(
                 array('not_empty')
             ),
             'name' => array(

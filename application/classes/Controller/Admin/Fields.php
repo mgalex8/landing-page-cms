@@ -9,6 +9,13 @@ class Controller_Admin_Fields extends Controller_Auth
     
     public function action_index()
     {
+        $structure_id = Arr::get($_GET, 'structure', null);
+        $orm = ORM::factory('Structures', $structure_id);
+        if(!$orm->loaded())
+        {             
+            throw HTTP_Exception::factory(404, 'Structure not found!');
+        }
+        
         if (!empty($_POST['delete'])) {
             $this->_delete(array_keys($_POST['delete']));
         }
@@ -24,29 +31,30 @@ class Controller_Admin_Fields extends Controller_Auth
         $pagination_view = new View('pagination/pages');
         $pagination_view->page = $page;
         $pagination_view->perpage = $per_page;        
-        $pagination_view->count_all = ORM::factory( $this->modelName )->count_all();
+        $pagination_view->count_all = ORM::factory( $this->modelName )->where('structure_id','=',$structure_id)->count_all();
         $view->pagination = $pagination_view->render();                
         
-        $structures = array();
+        $fields = array();
         $orm = ORM::factory( $this->modelName )
+                        ->where('structure_id','=',$structure_id)
                         ->order_by('id','asc')
                         ->limit($per_page)
                         ->offset(($page - 1) * $per_page)
                         ->find_all(); 
         foreach ($orm as $item)
         {
-            $structures[] = array(
+            $fields[] = array(
                 'id' => $item->id,
                 'name' => $item->name,
                 'title' => $item->title,
-                'i18n' => $item->i18n,                                
+                'i18n' => $item->i18n,                
+                'edit_url' => URL::base(true) . '/admin/fields/addedit?structure=' . $structure_id . '&id=' . $item->id,
             );
         }
         
         $view->result = array(
-            'structures' => $structures,
-            'add_url' => URL::base(true) . '/admin/fields/addedit',
-            'edit_url' => URL::base(true) . '/admin/fields/addedit',
+            'fields' => $fields,      
+            'add_url' => URL::base(true) . '/admin/fields/addedit?structure=' . $structure_id,
         );        
 	$this->display($view);
     }
@@ -54,6 +62,13 @@ class Controller_Admin_Fields extends Controller_Auth
 
     public function action_addedit()
     {
+        $structure_id = Arr::get($_GET, 'structure', null);
+        $orm = ORM::factory('Structures', $structure_id);
+        if(!$orm->loaded())
+        {             
+            throw HTTP_Exception::factory(404, 'Structure not found!');
+        }
+        
         $view = View::factory('scripts/admin/field_add');
         $errors = array();        
         $id = Arr::get($_GET, 'id', '');
@@ -66,6 +81,10 @@ class Controller_Admin_Fields extends Controller_Auth
                 'name'=>'', 
                 'title'=>'',   
                 'i18n'=>'',
+                'structure_id'=>$structure_id,
+                'param1' => '',
+                'param2' => '',
+                'multiply' => '',
             );
         }   
         else {
@@ -80,6 +99,10 @@ class Controller_Admin_Fields extends Controller_Auth
                      'name' => $edit->name,
                      'title' => $edit->title,
                      'i18n' => $edit->i18n,                     
+                     'structure_id'=>$edit->structure_id,
+                     'param1' => $edit->param1,
+                     'param2' => $edit->param2,
+                     'multiply' => $edit->multiply,
                  );
             }
             else
@@ -95,6 +118,10 @@ class Controller_Admin_Fields extends Controller_Auth
             $post['title'] = Arr::get($_POST, 'title');
             $post['text'] = Arr::get($_POST, 'text', null);
             $post['i18n'] = Arr::get($_POST, 'i18n', null);
+            $post['param1'] = Arr::get($_POST, 'param1', null);
+            $post['param2'] = Arr::get($_POST, 'param2', null);
+            $post['structure_id'] = Arr::get($_POST, 'structure_id', null);
+            $post['multiply'] = (Arr::get($_POST, 'multiply', '') == 'on');
             $field = $post;
             
             // Validation
@@ -121,14 +148,14 @@ class Controller_Admin_Fields extends Controller_Auth
                 }
                 // Redirect
                 $route = Route::get('admin')->uri(array('controller' => 'fields', 'action' => 'index'));
-                $qs = (!empty($id)) ? ('?id='.$id) : '';            
+                $qs = '?structure=' . $structure_id . '&id=' . $id;
                 Controller::redirect( URL::base(true) . $route . $qs );
             }
         } 
                 
         $view->result = array(  
-            'title' => __($action . ' Structure'),
-            'action_url' => URL::base(true) . '/admin/fields/addedit?id=' . $id,
+            'title' => __($action . ' Field'),
+            'action_url' => URL::base(true) . '/admin/fields/addedit?structure=' . $structure_id . '&id=' . $id,
             'field' => $field,
             'errors' => $errors,
         );

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: zuzdb11
--- Generation Time: Mar 10, 2015 at 12:46 PM
+-- Generation Time: Mar 11, 2015 at 01:04 PM
 -- Server version: 5.1.73-log
 -- PHP Version: 5.3.3
 
@@ -202,7 +202,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `username`, `password`, `status`, `logins`, `last_login`, `email_required`, `email_token`, `created`) VALUES
-(1, 'admin@admin.com', 'admin', '3093f4fcfed4fd521ce6e6c4bc75fd3203a41986dc0ff121a2dffb7cbc50a72c', '', 2, 1425976884, 0, '0876b6b0db0707db221a5c736d8a896a', '2015-03-10 08:42:15'),
+(1, 'admin@admin.com', 'admin', '3093f4fcfed4fd521ce6e6c4bc75fd3203a41986dc0ff121a2dffb7cbc50a72c', '', 3, 1426063366, 0, '0876b6b0db0707db221a5c736d8a896a', '2015-03-11 08:43:38'),
 (32, 'evgeniy.web@zuzex.com', 'Evgeniy', '69782b89a114d098a00a4b78d231ffcea5519a5bfb90e3ac4fc92f31b6842054', '', 0, 1423740061, 0, 'd93cd926bc2befad358ddc2c1f12821c', '2015-02-18 13:32:49');
 
 -- --------------------------------------------------------
@@ -226,11 +226,22 @@ CREATE TABLE IF NOT EXISTS `user_groups` (
 
 CREATE TABLE IF NOT EXISTS `x_fields` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `structure_id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `title` varchar(255) NOT NULL,
   `i18n` varchar(255) NOT NULL,
+  `param1` varchar(255) NOT NULL,
+  `param2` varchar(255) NOT NULL,
+  `multiply` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `x_fields`
+--
+
+INSERT INTO `x_fields` (`id`, `structure_id`, `name`, `title`, `i18n`, `param1`, `param2`, `multiply`) VALUES
+(1, 4, 'ot_biznes', 'Должность', '', 'ot_biznes', '', 0);
 
 -- --------------------------------------------------------
 
@@ -245,7 +256,17 @@ CREATE TABLE IF NOT EXISTS `x_structures` (
   `i18n` varchar(255) NOT NULL,
   `menu_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `x_structures`
+--
+
+INSERT INTO `x_structures` (`id`, `name`, `title`, `i18n`, `menu_id`) VALUES
+(1, 'slider', 'Слайдер', 'Slider', 0),
+(2, 'services', 'Услуги', 'Services', 0),
+(3, 'portfolio', 'Портфолио', 'Portfolio', 0),
+(4, 'reviews', 'Отзывы', 'Reviews', 0);
 
 --
 -- Constraints for dumped tables

@@ -23,14 +23,13 @@
                         foreach ($result['fields'] as $field){
                     ?>
                         <tr>
-                            <td class="text-center"><input type="checkbox" name="delete[<?php echo  $field['id']; ?>]" item-id="<?php echo $struct['id']; ?>" /></td>                                                        
-                            <td><a href="<?php $field['edit_fields_url']; ?>"><?php echo $field['name']; ?></a></td>
+                            <td class="text-center"><input type="checkbox" name="delete[<?php echo  $field['id']; ?>]" item-id="<?php echo $field['id']; ?>" /></td>                                                        
+                            <td><a href="<?php $field['edit_url']; ?>"><?php echo $field['name']; ?></a></td>
                             <td><?php echo $field['title']; ?></td>
                             <td><?php echo $field['i18n']; ?></td>
-                            <td class="text-center">
-                                <a class="btn btn-info" href="<?php echo $field['edit_fields_url']; ?>"> Fields</i></a>
-                                <a class="btn btn-success" href="<?php echo $result['edit_url']; ?>?id=<?php echo  $struct['id'] ;?>"><i class="icon-pencil icon-white"></i></a>                                
-                                <a class="btn btn-danger remove-image-btn" item-id="<?php echo $struct['id']; ?>"><i class="icon-remove icon-white"></i></a>
+                            <td class="text-center">                                
+                                <a class="btn btn-success" href="<?php echo $field['edit_url']; ?>"><i class="icon-pencil icon-white"></i></a>                                
+                                <a class="btn btn-danger remove-image-btn" item-id="<?php echo $field['id']; ?>"><i class="icon-remove icon-white"></i></a>
                             </td>
                         </tr>
                     <?php

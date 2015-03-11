@@ -41,7 +41,7 @@ class Controller_Admin_Structures extends Controller_Auth
                 'title' => $item->title,
                 'i18n' => $item->i18n,
                 'menu_id' => $item->menu_id,
-                'edit_fields_url' => URL::base(true) . 'admin/fields?id=' . $item->id,
+                'edit_fields_url' => URL::base(true) . 'admin/fields?structure=' . $item->id,
             );
         }
         

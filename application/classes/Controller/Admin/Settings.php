@@ -13,22 +13,22 @@ class Controller_Admin_Settings extends Controller_Auth
             'lang' => null,
             'admin_menu' => null,
         );
-
-        //Find
-        $edit = ORM::factory('Settings')->find();
+		
+		//Find
+        $edit = ORM::factory('Settings')->where('name','=','admin')->find();
         if($edit->loaded())
         {
             $id = $edit->id;
             $settings = json_decode($edit->settings, true);
-        }             
+        }                     
         
         //POST
         if(!empty($_POST)) 
-        {   
+        {        				   
             $post = array();                
             $post['lang'] = Arr::get($_POST, 'lang');
             $post['admin_menu'] = Arr::get($_POST, 'admin_menu');                
-            $settings = $post;
+            $settings = $post;			
 
             // Save
             if (!empty($id))
@@ -39,11 +39,13 @@ class Controller_Admin_Settings extends Controller_Auth
             {
                 $orm = ORM::factory('Settings');
             }
+			
             $orm->settings = json_encode($settings);
+			$orm->name = 'admin';
             $orm->save();
-        }
+        }		
 
-        $result = array();
+        $result = array();		
 
         //Menus
         $menus = ORM::factory('MenuTypes')->find_all();

@@ -59,11 +59,6 @@ ini_set('unserialize_callback_func', 'spl_autoload_call');
 // -- Configuration and initialization -----------------------------------------
 
 /**
- * Set the default language
- */
-I18n::lang('ru-ru');
-
-/**
  * Set Kohana::$environment if a 'KOHANA_ENV' environment variable has been supplied.
  *
  * Note: If you supply an invalid environment name, a PHP warning will be thrown
@@ -125,6 +120,22 @@ Kohana::modules(array(
 	// 'unittest'   => MODPATH.'unittest',   // Unit testing
 	// 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 	));
+	
+	
+/**
+ * Set the default language
+ */
+$admin_settings = ORM::factory('Settings')->where('name','=','admin')->find();
+if ($admin_settings->loaded())
+{
+	$settings = json_decode($admin_settings->settings, true);
+	I18n::lang($settings['lang']);
+}
+else 
+{
+	I18n::lang('ru-ru');	
+}
+var_dump(I18n::$lang);
 
 /**
  * Set the routes. Each route must have a minimum of a name, a URI and a set of

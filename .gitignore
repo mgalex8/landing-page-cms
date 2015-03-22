@@ -1,8 +1,10 @@
 /application/config/database.php
 /application/logs/*
 /application/cache/*
-/nbproject
+/nbproject/*
+/.settings/*
 /images/upload/*
+.project
 .idea
 .htaccess
 *~

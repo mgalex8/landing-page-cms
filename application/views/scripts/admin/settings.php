@@ -3,17 +3,17 @@
     <form action="<?php echo $result['action_url']; ?>" method="post">        
         <table>                     
             <tr>
-                <td class="span2"><?php echo __('Language'); ?>:</td>
+                <td class="span3"><?php echo __('Language'); ?>:</td>
                 <td>
                     <select name="lang">
                         <?php foreach ($result['languages'] as $lang): ?>
-                        <option value="<?php echo $lang->lang; ?>" <?php if($settings['lang']==$lang->id) echo "selected"; ?>><?php echo i18n($lang->i18n, $lang->title); ?></option>
+                        <option value="<?php echo $lang->lang; ?>" <?php if($settings['lang']==$lang->lang) echo "selected"; ?>><?php echo i18n($lang->i18n, $lang->title); ?></option>
                         <?php endforeach; ?>
                     </select>
                 </td>
             </tr>
             <tr>
-                <td class="span2"><?php echo __('Admin menu'); ?>:</td>
+                <td class="span3"><?php echo __('Admin menu'); ?>:</td>
                 <td>
                     <select name="admin_menu">
                         <?php foreach ($result['menus'] as $menu): ?>
@@ -23,7 +23,7 @@
                 </td>                    
             </tr>
             <tr>
-                <td class="span2" colspan="2">&nbsp</td>
+                <td class="span2" colspan="2">&nbsp;</td>
             </tr>
             <tr>
                 <td class="span2"></td>
@@ -31,4 +31,4 @@
             </tr>
         </table>          
     </form>
-<div>    
+<div>

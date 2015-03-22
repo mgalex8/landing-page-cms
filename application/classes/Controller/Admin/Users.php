@@ -92,16 +92,16 @@ class Controller_Admin_Users extends Controller_Auth
                 throw HTTP_Exception::factory(404, 'User not found!');
             }
         }
-        
+        $debug = array();
         if(!empty($_POST)) 
         {   
             $post = array();
             $post['username'] = Arr::get($_POST, 'username', null);
             $post['email'] = Arr::get($_POST, 'email', null);
-            $post['group_id'] = Arr::get($_POST, 'group_id', null);
+            $post['group_id'] = Arr::get($_POST, 'group', null);
             $password = Arr::get($_POST, 'password', null);
             $confirm_password = Arr::get($_POST, 'password2', null);
-            $user = $post;            
+            $user = $post;
             
             // Validation
             $errors = array();
@@ -122,28 +122,28 @@ class Controller_Admin_Users extends Controller_Auth
             {   
                 if ($password == $confirm_password)
                 {
-                    $pwd = Auth::instance()->hash_password($password);                
+                    $pwd = Auth::instance()->hash_password($password);                    					  
 
                     $data = $post;
-                    $data['password'] = $pwd;
-                    $data['email'] = Arr::get($_POST, 'email', null);
-                    $data['created'] = time(); 
+                    $data['password'] = $pwd;                    
+                    $data['created'] = time();
 
                     // Save
                     if ($action == "Add") {
+                    	$data['email_token'] = md5($pwd . $data['created']);
                         ORM::factory( $this->modelName )
-                                ->values($post)
+                                ->values($data)
                                 ->save();
                     }
                     else {
                         ORM::factory( $this->modelName, $id )
-                                ->values($post)
+                                ->values($data)
                                 ->save();
                     }
                     // Redirect
                     $route = Route::get('admin')->uri(array('controller' => 'users', 'action' => 'index'));
                     $qs = (!empty($id)) ? ('?id='.$id) : '';            
-                    Controller::redirect( URL::base(true) . $route . $qs );
+                    //Controller::redirect( URL::base(true) . $route . $qs );
                 }
                 else {
                      $errors['password2'] = __("Confirm password");               
@@ -162,11 +162,11 @@ class Controller_Admin_Users extends Controller_Auth
         }
                 
         $view->result = array(  
-            'title' => __($action . ' User'),
+            'title' => __($action . ' User'),            
             'action_url' => URL::base(true) . 'admin/users/addedit?id=' . $id,
             'user' => $user,
             'groups' => $groups,
-            'errors' => $errors,
+            'errors' => $errors,          
         );
         $this->display($view);
     }

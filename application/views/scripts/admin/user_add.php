@@ -32,9 +32,9 @@
             <tr>
                 <td class="span2"><?php echo __('Group'); ?>:</td>
                 <td>
-                    <select name="role_id">
+                    <select name="group">
                         <?php foreach ($result['groups'] as $group): ?>
-                        <option value="<?php echo $role['id']; ?>" <?php if($result['user']['group_id']==$group['id']) echo "selected"; ?>><?php echo $group['title']; ?></option>
+                        <option value="<?php echo $group['id']; ?>" <?php if($result['user']['group_id']==$group['id']) echo "selected"; ?>><?php echo $group['title']; ?></option>
                         <?php endforeach; ?>
                     </select>
                 </td>
@@ -45,5 +45,4 @@
             </tr>
         </table>        
     </form>
-<div> 
-    <pre><?php print_r($_SESSION); ?></pre>
+<div>   

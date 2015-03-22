@@ -30,18 +30,23 @@
                     <a class="brand" href="/"><?php echo Kohana::$config->load('general')->get('site_name') ?></a>
                     <?php if (Auth::instance()->logged_in('admin')) { ?>
                     <ul class="nav">
-                        <li <?php if (Request::$current->controller() == 'slider') echo 'class="active"' ?>>
-                            <a href="<?php echo URL::base() . Route::get('admin')->uri(array('controller' => 'slider', 'action' => 'index')) ?>"><?php echo __('Slider') ?></a>
-                        </li>                        
-                        <li <?php if (Request::$current->controller() == 'services') echo 'class="active"' ?>>
-                            <a href="<?php echo URL::base() . Route::get('admin')->uri(array('controller' => 'services', 'action' => 'index')) ?>"><?php echo __('Services') ?></a>
-                        </li>
-                        <li <?php if (Request::$current->controller() == 'portfolio') echo 'class="active"' ?>>
-                            <a href="<?php echo URL::base() . Route::get('admin')->uri(array('controller' => 'portfolio', 'action' => 'index')) ?>"><?php echo __('Portfolio') ?></a>
-                        </li>
-                        <li <?php if (Request::$current->controller() == 'reviews') echo 'class="active"' ?>>
-                            <a href="<?php echo URL::base() . Route::get('admin')->uri(array('controller' => 'reviews', 'action' => 'index')) ?>"><?php echo __('Reviews') ?></a>
-                        </li>
+                    	<?php 
+                    		foreach($admin_menu as $menuitem):
+								if (!empty($menuitem->href)) {
+									$href = $menuitem->href;
+								} 
+								else {
+									$href = URL::base();
+									$href .= Route::get($menuitem->route)->uri(array('controller' => $menuitem->controller, 'action' => $menuitem->action));
+									$href .= (!empty($menuitem->qs)) ? '?'.$menuitem->qs : '';
+								}
+                    	?>
+	                    		<li <?php if (Request::$current->controller() == $menuitem->controller) echo 'class="active"' ?>>
+		                            <a href="<?php echo $href; ?>"><?php echo i18n($menuitem->i18n, $menuitem->name); ?></a>
+		                        </li>
+	                    <?php 
+	                    	endforeach; 
+	                    ?>	
                         <li <?php if (Request::$current->controller() == 'positions') echo 'class="active"' ?>>
                             <a href="<?php echo URL::base() . Route::get('admin')->uri(array('controller' => 'positions', 'action' => 'index')) ?>"><?php echo __('Positions') ?></a>
                         </li>                        

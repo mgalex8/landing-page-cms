@@ -64,4 +64,4 @@ class Controller_Admin_Settings extends Controller_Auth
         $this->display($view);
     }
         
-} // end Controller_Admin_Users
+} // end Controller_Admin_Settings

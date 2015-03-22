@@ -34,4 +34,10 @@ return array(
     'Empty text' => 'Введите текст',
     'Title' => 'Название',
     'Text' => 'Текст',
+    
+	// Contents
+    'Add Category' => 'Добавить категорию',
+    'Edit Category' => 'Редактировать категорию',
+    'Add Item' => 'Новая запись',
+    'Edit Item' => 'Редактировать запись',
 );

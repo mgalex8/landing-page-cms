@@ -9,21 +9,32 @@ class Controller_Admin_Content extends Controller_Auth
     public function action_index()
     {
     	//Structure
-    	$structure = Arr::get($_GET, 'structure', null);
-		$orm = ORM::factory('Structures')->where('name','=',$structure)->find();
+    	$structureName = Arr::get($_GET, 'structure', null);
+		$orm = ORM::factory('Structures')->where('name','=',$structureName)->find();
         if($orm->loaded())
-        {
-             $structure = array(
-                 'id' => $orm->id,
-                 'name' => $orm->name,
-                 'title' => $orm->title,
-                 'i18n' => $orm->i18n,                     
-             );
-        }
-        else
+		{
+			$structure = array(
+				'id' => $orm->id,
+				'name' => $orm->name,
+				'title' => $orm->title,
+				'i18n' => $orm->i18n,
+			);
+		}
+		else
         {
             throw HTTP_Exception::factory(404, 'Structure not found!');
         }
+		
+		//Parent
+		$parentId = Arr::get($_GET, 'parent', 0);
+		if ($parentId)
+		{
+			$parent = ORM::factory( $this->modelName, $parentId );
+	        if(!$parent->loaded())
+	        {             
+	            throw HTTP_Exception::factory(404, 'Parent ID not found!');
+	        }
+		}
 		
 		//Content		
         if (!empty($_POST['delete'])) {
@@ -44,32 +55,45 @@ class Controller_Admin_Content extends Controller_Auth
         $pagination_view->count_all = ORM::factory( $this->modelName )->count_all();
         $view->pagination = $pagination_view->render();                
         
+		//Find
         $content = array();
         $orm = ORM::factory( $this->modelName )
 						->where('structure_id','=',$structure['id'])
+						->and_where('parent_id','=',$parentId)
+						->order_by('is_category','desc')
                         ->order_by('id','asc')
                         ->limit($per_page)
                         ->offset(($page - 1) * $per_page)
                         ->find_all(); 
         foreach ($orm as $item)
         {        	
-            $content[] = array(
+            $newItem = array(
                 'id' => $item->id,
                 'structure_id' => $item->structure_id,
                 'parent_id' => $item->parent_id,
                 'is_category' => $item->is_category,
-                'name' => $item->name,                         
-                'edit_category_url' => URL::base(true) . 'admin/content/category?structure=' . $structure['id'],
+                'active' => $item->active,
+                'created_at' => $item->created_at,
+                'update_at' => $item->update_at,
+                'name' => $item->name,
             );
+			if ($item->is_category)
+			{				
+                $newItem['edit_url'] = URL::base(true) . 'admin/content/category?structure=' . $structureName . '&id=' . $item->id;
+				$newItem['edit_children_url'] = URL::base(true) . 'admin/content?structure=' . $structureName . '&parent=' . $item->id;
+			}
+			else 
+			{
+				$newItem['edit_url'] = URL::base(true) . 'admin/content/addedit?structure=' . $structureName . '&id=' . $item->id;
+			}
+			$content[] = $newItem;
         }
         
         $view->result = array(
         	'structure' => $structure,
             'content' => $content,
-            'add_url' => URL::base(true) . 'admin/content/addedit?structure=' . $structure['id'],
-            'edit_url' => URL::base(true) . 'admin/content/addedit?structure=' . $structure['id'],
-            'add_category_url' => URL::base(true) . 'admin/content/addedit_category?structure=' . $structure['id'],
-            'edit_category_url' => URL::base(true) . 'admin/content/addedit_category?structure=' . $structure['id'],
+            'add_item_url' => URL::base(true) . 'admin/content/addedit?structure=' . $structureName . '&parent=' . $parentId,
+            'add_category_url' => URL::base(true) . 'admin/content/category?structure=' . $structureName . '&parent=' . $parentId,            
         );        
 		$this->display($view);
     }
@@ -84,6 +108,16 @@ class Controller_Admin_Content extends Controller_Auth
         {             
             throw HTTP_Exception::factory(404, 'Structure not found!');
         }
+		//Parent
+		$parentId = Arr::get($_GET, 'parent', 0);
+		if ($parentId)
+		{
+			$parent = ORM::factory( $this->modelName, $parentId );
+	        if(!$parent->loaded())
+	        {             
+	            throw HTTP_Exception::factory(404, 'Parent ID not found!');
+	        }
+		}
 
 		//Content
         $view = View::factory('scripts/admin/content_add');
@@ -150,7 +184,7 @@ class Controller_Admin_Content extends Controller_Auth
                 }
                 // Redirect
                 $route = Route::get('admin')->uri(array('controller' => 'content', 'action' => 'index'));
-                $qs = (!empty($id)) ? ('?id='.$id) : '';            
+                $qs = '?structure=' . $structureName . '&parent=' . $parentId;            
                 Controller::redirect( URL::base(true) . $route . $qs );
             }
         } 
@@ -164,84 +198,108 @@ class Controller_Admin_Content extends Controller_Auth
         $this->display($view);
     }
 
-	public function action_addedit_category()
+	public function action_category()
     {
+    	//Structure
+    	$structureName = Arr::get($_GET, 'structure', null);
+		$structure = ORM::factory('Structures')->where('name','=',$structureName)->find();
+        if(!$structure->loaded())
+        {             
+            throw HTTP_Exception::factory(404, 'Structure not found!');
+        }
+		//Parent
+		$parentId = Arr::get($_GET, 'parent', 0);
+		if ($parentId)
+		{
+			$parent = ORM::factory( $this->modelName, $parentId );
+	        if(!$parent->loaded())
+	        {             
+	            throw HTTP_Exception::factory(404, 'Parent ID not found!');
+	        }
+		}
+		
+		//Content
         $view = View::factory('scripts/admin/content_category_add');
         $errors = array();        
         $id = Arr::get($_GET, 'id', '');
         
         if(empty($id)) {
             $action = 'Add';
-            $this->template->title = __("Add Structure");
-            $structure = array(
+            $this->template->title = __("Add Category");
+            $category = array(
                 'id'=>'', 
                 'name'=>'', 
-                'title'=>'',   
-                'i18n'=>'',
+                'text'=>'',
+                'active'=>'',               
             );
         }   
         else {
             $action = 'Edit';
-            $this->template->title = __("Edit Structure");
+            $this->template->title = __("Edit Category");
             
             $edit = ORM::factory( $this->modelName, $id);
             if($edit->loaded())
             {
-                 $structure = array(
+                 $category = array(
                      'id' => $id,
                      'name' => $edit->name,
-                     'title' => $edit->title,
-                     'i18n' => $edit->i18n,                     
+                     'text' => $edit->text,
+                     'active' => $edit->active,                                           
                  );
             }
             else
             {
-                throw HTTP_Exception::factory(404, 'Structure not found!');
+                throw HTTP_Exception::factory(404, 'Category not found!');
             }
         }
         
         if(!empty($_POST)) 
         {   
             $post = array();
-            $post['name'] = Arr::get($_POST, 'name');
-            $post['title'] = Arr::get($_POST, 'title');
-            $post['text'] = Arr::get($_POST, 'text', null);
-            $post['i18n'] = Arr::get($_POST, 'i18n', null);
-            $structure = $post;
+            $post['name'] = Arr::get($_POST, 'name');            
+            $post['text'] = Arr::get($_POST, 'text', null);            
+            $category = $post;
             
             // Validation
             $errors = array();
             if (empty($post['name'])) {
-                $errors['name'] = __("Empty ID");
-            }
-            if (empty($post['title'])) {
-                $errors['title'] = __("Empty name");
-            }             
+                $errors['name'] = __("Empty name");
+            }                   
             
             if (!$errors)
-            {            
+            {            	
+				$category['structure_id'] = $structure->id;
+				$category['parent_id'] = $parentId;
+				$category['is_category'] = 1;												
+				
                 // Save
-                if ($action == "Add") {            
+                if ($action == "Add") {
+                	$category['active'] = 1;            
                     ORM::factory( $this->modelName )
-                            ->values($post)
+                            ->values( $category )
                             ->save();
                 }
                 else {
+                	$category['active'] = (Arr::get($_POST, 'active', '') == 'on');;
+                	$category['update_at'] = date('Y-m-d H:i:s');
                     ORM::factory( $this->modelName, $id )
-                            ->values($post)
+                            ->values( $category )
                             ->save();
                 }
-                // Redirect
-                $route = Route::get('admin')->uri(array('controller' => 'structures', 'action' => 'index'));
-                $qs = (!empty($id)) ? ('?id='.$id) : '';            
+                // Redirect                
+                $route = Route::get('admin')->uri(array('controller' => 'content', 'action' => 'index'));				
+                $qs = '?structure=' . $structureName . '&parent=' . $parentId;            
                 Controller::redirect( URL::base(true) . $route . $qs );
             }
         } 
+
+		$action_url = URL::base(true) . 'admin/content/category?id=' . $id . '&structure=' . $structureName;
+		$action_url .= (!empty($parentId)) ? '&parent='.$parentId : '';
                 
         $view->result = array(  
-            'title' => __($action . ' Structure'),
-            'action_url' => URL::base(true) . 'admin/structures/addedit?id=' . $id,
-            'structure' => $structure,
+            'title' => __($action . ' Category'),
+            'action_url' => $action_url,
+            'category' => $category,
             'errors' => $errors,
         );
         $this->display($view);

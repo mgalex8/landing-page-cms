@@ -14,19 +14,20 @@
                     </div></td>
             </tr>                    
             <tr>
-                <td class="span2"><?php echo __('ID'); ?>*:</td>
-                <td><input type="text" name="name" value="<?php echo $result['structure']['name']; ?>" /></td>
-            </tr>
-            <tr>
                 <td class="span2"><?php echo __('Name'); ?>*:</td>
-                <td><input type="text" name="title" value="<?php echo $result['structure']['title']; ?>" /></td>
-            </tr>           
-            <tr>
-                <td class="span2"><?php echo __('i18n'); ?>*:</td>
-                <td><input type="text" name="i18n" value="<?php echo $result['structure']['i18n']; ?>" /></td>                    
+                <td><input type="text" name="name" value="<?php echo $result['category']['name']; ?>" /></td>
             </tr>
             <tr>
-                <td class="span2" colspan="2">&nbsp</td>
+                <td class="span2"><?php echo __('Description'); ?>:</td>
+                <td><textarea name="text"><?php echo $result['category']['text']; ?></textarea></td>
+            </tr>
+            <tr>
+                <td class="span2"><?php echo __('Active'); ?>:</td>
+                <td><input type="checkbox" name="active"<?php if ($result['category']['active']): ?> checked<?php endif; ?> /></td>
+            </tr>         
+            
+            <tr>
+                <td class="span2" colspan="2">&nbsp;</td>
             </tr>
             <tr>
                 <td class="span2"></td>

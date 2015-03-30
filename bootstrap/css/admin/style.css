@@ -71,3 +71,9 @@
     top: -5px;
     left: -7px;
 }
+.table-striped tbody > tr.category:nth-child(odd) > td {
+  background-color: #FFF6DB;
+}
+.table-striped tbody > tr.category:nth-child(even) > td {
+  background-color: #FFF7E0;
+}

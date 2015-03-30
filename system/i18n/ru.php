@@ -12,14 +12,28 @@ return array(
     
     // Tables
     'Name' => 'Название',
+    'Description' => 'Описание',
+    'Name' => 'Название',
+    'Title' => 'Название',
+    'Text' => 'Текст',
+    'Date create' => 'Дата создания',
+    'Date update' => 'Дата обновления',
+    'Active' => 'Активность',
+    'Multiply' => 'Множественный',
+    'Parameter' => 'Параметр',
+    
+	//Empty
+    'Empty ID' => 'Введите ID',
+    'Empty name' => 'Введите название',
+    'Empty title' => 'Введите название',
+    'Empty text' => 'Введите текст',
     
     // Users
     'Add User' => 'Новый пользователь',
     'Edit User' => 'Редактирование пользователя',
     'Username' => 'Имя пользователя',
     'Group' => 'Группа',
-    'Last login' => 'Дата захода',
-    'Date create' => 'Дата создания',
+    'Last login' => 'Дата захода',    
     'Password' => 'Пароль',
     'Confirm password' => 'Повторите пароль',
     'Empty username' => 'Введите имя пользователя',
@@ -29,15 +43,11 @@ return array(
     // Positions
     'Add Position' => 'Новая позиция',
     'Edit Position' => 'Редактирование позиции',
-    'Empty ID' => 'Введите ID',
-    'Empty title' => 'Введите название',
-    'Empty text' => 'Введите текст',
-    'Title' => 'Название',
-    'Text' => 'Текст',
     
 	// Contents
     'Add Category' => 'Добавить категорию',
     'Edit Category' => 'Редактировать категорию',
-    'Add Item' => 'Новая запись',
+    'Add Item' => 'Добавить запись',
     'Edit Item' => 'Редактировать запись',
+    
 );

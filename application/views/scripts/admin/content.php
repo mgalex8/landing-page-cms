@@ -1,8 +1,9 @@
 <h2><?php echo i18n($result['structure']['i18n'], $result['structure']['title']) ?></h2>
 <div class="row space">
-    <div class="span12 ">                
+    <div class="span12 ">
+    	<a class="btn btn-info" href="<?php echo $_SERVER['HTTP_REFERER']; ?>"><i class="icon-chevron-left icon-white"></i></a>          
     	<a class="btn btn-success" href="<?php echo $result['add_category_url']; ?>"><i class="icon-ok icon-white"></i> <?php echo __('Add Category'); ?></a>
-        <a class="btn btn-success" href="<?php echo $result['add_url']; ?>"><i class="icon-ok icon-white"></i> <?php echo __('Add Item'); ?></a>                
+        <a class="btn btn-success" href="<?php echo $result['add_item_url']; ?>"><i class="icon-ok icon-white"></i> <?php echo __('Add Item'); ?></a>                
         <a class="btn btn-danger remove-btn"><i class="icon-remove icon-white"></i> <?php echo __('Delete selected'); ?></a>
     </div>    
 </div>
@@ -12,31 +13,50 @@
             <table class="table table-striped table-hover" id="user-table">
                 <thead>
                     <tr>
-                        <th class="span1 text-center"><input type="checkbox" /></th>                                                
-                        <th class="span2"><?php echo __('ID'); ?></th>
+                        <th class="span1 text-center"><input type="checkbox" /></th>
+                        <th class="span1"></th>                                                
                         <th class="span3"><?php echo __('Name'); ?></th>
-                        <th class="span4"><?php echo __('i18n'); ?></th>
+                        <th class="span2"><?php echo __('Active'); ?></th>
+                        <th class="span3"><?php echo __('Date create'); ?></th>
+                        <th class="span3"><?php echo __('Date update'); ?></th>
                         <th class="span3"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                        foreach ($result['content'] as $item){
-                    ?>
-                        <tr>
-                            <td class="text-center"><input type="checkbox" name="delete[<?php echo  $item['id']; ?>]" item-id="<?php echo $item['id']; ?>" /></td>                                                        
-                            <td><a href="<?php $item['edit_category_url']; ?>"><?php echo $item['name']; ?></a></td>
-                            <td><?php echo $item['title']; ?></td>
-                            <td><?php echo $item['i18n']; ?></td>
-                            <td class="text-center">
-                                <a class="btn btn-info" href="<?php echo $item['edit_fields_url']; ?>"> Fields</i></a>
-                                <a class="btn btn-success" href="<?php echo $result['edit_url']; ?>?id=<?php echo $item['id'] ;?>"><i class="icon-pencil icon-white"></i></a>                                
-                                <a class="btn btn-danger remove-image-btn" item-id="<?php echo $item['id']; ?>"><i class="icon-remove icon-white"></i></a>
-                            </td>
-                        </tr>
-                    <?php
-                    }
-                    ?>
+<?php
+    foreach ($result['content'] as $item):
+		if ($item['is_category']): 
+?>
+            <tr class="category">
+                <td class="text-center"><input type="checkbox" name="delete[<?php echo  $item['id']; ?>]" item-id="<?php echo $item['id']; ?>" /></td>
+                <td class="text-center"><a href="<?php echo $item['edit_children_url']; ?>"><i class="icon-folder-open"></a></td>                                                        
+                <td><a href="<?php echo $item['edit_children_url']; ?>"><?php echo $item['name']; ?></a></td>
+                <td class="text-center"><?php if ($item['active']): ?><i class="icon-ok"><?php endif; ?></td>
+                <td><?php echo $item['created_at']; ?></td>
+                <td><?php echo $item['update_at']; ?></td>
+                <td class="text-center">	                            	
+                    <a class="btn btn-info" href="<?php echo $item['edit_children_url']; ?>">...</i></a>	                                
+                    <a class="btn btn-success" href="<?php echo $item['edit_url']; ?>?id=<?php echo $item['id']; ?>"><i class="icon-pencil icon-white"></i></a>                                
+                    <a class="btn btn-danger remove-image-btn" item-id="<?php echo $item['id']; ?>"><i class="icon-remove icon-white"></i></a>
+                </td>
+            </tr>
+<?php	else: ?>
+			<tr>
+                <td class="text-center"><input type="checkbox" name="delete[<?php echo  $item['id']; ?>]" item-id="<?php echo $item['id']; ?>" /></td>
+                <td class="text-center"><a href="<?php echo $item['edit_children_url']; ?>"><i class="icon-file"></td>                                                        
+                <td><?php echo $item['name']; ?></td>
+                <td><?php echo $item['active']; ?></td>
+                <td><?php echo $item['created_at']; ?></td>
+                <td><?php echo $item['update_at']; ?></td>
+                <td class="text-center">	                            	
+                    <a class="btn btn-success" href="<?php echo $item['edit_url']; ?>?id=<?php echo $item['id']; ?>"><i class="icon-pencil icon-white"></i></a>                                
+                    <a class="btn btn-danger remove-image-btn" item-id="<?php echo $item['id']; ?>"><i class="icon-remove icon-white"></i></a>
+                </td>
+            </tr>
+<?php
+		endif;
+	endforeach;
+?>
                 </tbody>
             </table>
         </form>

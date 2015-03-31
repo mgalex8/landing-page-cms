@@ -14,6 +14,16 @@
                     </div></td>
             </tr>                    
             <tr>
+                <td class="span2"><?php echo __('Type'); ?>*:</td>
+                <td><select name="type">
+                        <option value="text">text</option>
+                        <option value="textarea">textarea</option>
+                        <option value="file">file</option>
+                        <option value="hidden">hidden</option>
+                        <option value="checkbox">checkbox</option>                        
+                    </select></td>
+            </tr>
+            <tr>
                 <td class="span2"><?php echo __('ID'); ?>*:</td>
                 <td><input type="text" name="name" value="<?php echo $result['field']['name']; ?>" /></td>
             </tr>
@@ -36,6 +46,10 @@
             <tr>
                 <td class="span2"><?php echo __('Multiply'); ?>:</td>
                 <td><input type="checkbox" name="multiply" <?php if ($result['field']['multiply']){ echo "checked"; } ?>" /></td>                    
+            </tr>
+            <tr>
+                <td class="span2"><?php echo __('Required'); ?>:</td>
+                <td><input type="checkbox" name="required" <?php if ($result['field']['required']){ echo "checked"; } ?>" /></td>                    
             </tr>
             <tr>
                 <td class="span2" colspan="2">&nbsp</td>

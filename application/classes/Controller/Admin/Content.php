@@ -4,7 +4,7 @@ class Controller_Admin_Content extends Controller_Auth
 {	
     public $template = 'layouts/admin';
 	
-	protected $modelName = 'Content';
+    protected $modelName = 'Content';
     
     public function action_index()
     {
@@ -12,29 +12,28 @@ class Controller_Admin_Content extends Controller_Auth
     	$structureName = Arr::get($_GET, 'structure', null);
 		$orm = ORM::factory('Structures')->where('name','=',$structureName)->find();
         if($orm->loaded())
-		{
-			$structure = array(
-				'id' => $orm->id,
-				'name' => $orm->name,
-				'title' => $orm->title,
-				'i18n' => $orm->i18n,
-			);
-		}
-		else
+        {
+            $structure = array(
+                'id' => $orm->id,
+                'name' => $orm->name,
+                'title' => $orm->title,
+                'i18n' => $orm->i18n,
+            );
+        }
+        else
         {
             throw HTTP_Exception::factory(404, 'Structure not found!');
+        }		
+        //Parent
+        $parentId = Arr::get($_GET, 'parent', 0);
+        if ($parentId)
+        {
+            $parent = ORM::factory( $this->modelName, $parentId );
+            if(!$parent->loaded())
+            {             
+                throw HTTP_Exception::factory(404, 'Parent ID not found!');
+            }
         }
-		
-		//Parent
-		$parentId = Arr::get($_GET, 'parent', 0);
-		if ($parentId)
-		{
-			$parent = ORM::factory( $this->modelName, $parentId );
-	        if(!$parent->loaded())
-	        {             
-	            throw HTTP_Exception::factory(404, 'Parent ID not found!');
-	        }
-		}
 		
 		//Content		
         if (!empty($_POST['delete'])) {
@@ -58,9 +57,9 @@ class Controller_Admin_Content extends Controller_Auth
 		//Find
         $content = array();
         $orm = ORM::factory( $this->modelName )
-						->where('structure_id','=',$structure['id'])
-						->and_where('parent_id','=',$parentId)
-						->order_by('is_category','desc')
+                        ->where('structure_id','=',$structure['id'])
+                        ->and_where('parent_id','=',$parentId)
+                        ->order_by('is_category','desc')
                         ->order_by('id','asc')
                         ->limit($per_page)
                         ->offset(($page - 1) * $per_page)
@@ -77,20 +76,20 @@ class Controller_Admin_Content extends Controller_Auth
                 'update_at' => $item->update_at,
                 'name' => $item->name,
             );
-			if ($item->is_category)
-			{				
+            if ($item->is_category)
+            {				
                 $newItem['edit_url'] = URL::base(true) . 'admin/content/category?structure=' . $structureName . '&id=' . $item->id;
-				$newItem['edit_children_url'] = URL::base(true) . 'admin/content?structure=' . $structureName . '&parent=' . $item->id;
-			}
-			else 
-			{
-				$newItem['edit_url'] = URL::base(true) . 'admin/content/addedit?structure=' . $structureName . '&id=' . $item->id;
-			}
-			$content[] = $newItem;
+                $newItem['edit_children_url'] = URL::base(true) . 'admin/content?structure=' . $structureName . '&parent=' . $item->id;
+            }
+            else 
+            {
+                $newItem['edit_url'] = URL::base(true) . 'admin/content/addedit?structure=' . $structureName . '&id=' . $item->id;
+            }
+            $content[] = $newItem;
         }
         
         $view->result = array(
-        	'structure' => $structure,
+            'structure' => $structure,
             'content' => $content,
             'add_item_url' => URL::base(true) . 'admin/content/addedit?structure=' . $structureName . '&parent=' . $parentId,
             'add_category_url' => URL::base(true) . 'admin/content/category?structure=' . $structureName . '&parent=' . $parentId,            
@@ -103,28 +102,49 @@ class Controller_Admin_Content extends Controller_Auth
     {
     	//Structure
     	$structureName = Arr::get($_GET, 'structure', null);
-		$structure = ORM::factory('Structures')->where('name','=',$structureName)->find();
+	$structure = ORM::factory('Structures')->where('name','=',$structureName)->find();
         if(!$structure->loaded())
         {             
             throw HTTP_Exception::factory(404, 'Structure not found!');
         }
-		//Parent
-		$parentId = Arr::get($_GET, 'parent', 0);
-		if ($parentId)
-		{
-			$parent = ORM::factory( $this->modelName, $parentId );
-	        if(!$parent->loaded())
-	        {             
-	            throw HTTP_Exception::factory(404, 'Parent ID not found!');
-	        }
-		}
+        //Parent
+        $parentId = Arr::get($_GET, 'parent', 0);
+        if ($parentId)
+        {
+            $parent = ORM::factory( $this->modelName, $parentId );
+            if(!$parent->loaded())
+            {             
+                throw HTTP_Exception::factory(404, 'Parent ID not found!');
+            }
+        }
+        //Fields
+        $fields = array();
+        $orm = ORM::factory('Fields')
+                        ->where('structure_id','=',$structure['id'])
+                        ->find_all();
+        foreach ($orm as $field)
+        {
+            $fields[] = array(
+                'id' => $field->id,
+                'structure_id' => $field->structure_id,
+                'type' => $field->type,
+                'name' => $filed->name,
+                'title' => $filed->title,
+                'i18n' => $filed->i18n,
+                'param1' => $field->param1,
+                'param2' => $field->param2,
+                'multiply' => $field->multiply,
+                'required' => $field->required,
+            );
+        }
 
-		//Content
+        //Content
         $view = View::factory('scripts/admin/content_add');
         $errors = array();
         $id = Arr::get($_GET, 'id', '');
         
-        if(empty($id)) {
+        if(empty($id)) 
+        {
             $action = 'Add';
             $this->template->title = __("Add Item");
             $content = array(
@@ -133,7 +153,8 @@ class Controller_Admin_Content extends Controller_Auth
                 'text'=>'',     
             );
         }   
-        else {
+        else 
+        {
             $action = 'Edit';
             $this->template->title = __("Edit Item");
             
@@ -143,7 +164,7 @@ class Controller_Admin_Content extends Controller_Auth
                  $content = array(
                      'id' => $id,
                      'name' => $edit->name,
-                     'title' => $edit->text,                                          
+                     'text' => $edit->text,                                          
                  );
             }
             else
@@ -155,8 +176,7 @@ class Controller_Admin_Content extends Controller_Auth
         if(!empty($_POST)) 
         {   
             $post = array();
-            $post['name'] = Arr::get($_POST, 'name');
-            $post['title'] = Arr::get($_POST, 'title');
+            $post['name'] = Arr::get($_POST, 'name');            
             $post['text'] = Arr::get($_POST, 'text', null);            
             $structure = $post;
             
@@ -192,13 +212,15 @@ class Controller_Admin_Content extends Controller_Auth
         $view->result = array(  
             'title' => __($action . ' Item'),
             'action_url' => URL::base(true) . 'admin/structures/addedit?id=' . $id,
-            'content' => $content,
+            'item' => $item,
+            'fields' => $fields,
             'errors' => $errors,
         );
         $this->display($view);
     }
 
-	public function action_category()
+    
+    public function action_category()
     {
     	//Structure
     	$structureName = Arr::get($_GET, 'structure', null);
@@ -207,18 +229,18 @@ class Controller_Admin_Content extends Controller_Auth
         {             
             throw HTTP_Exception::factory(404, 'Structure not found!');
         }
-		//Parent
-		$parentId = Arr::get($_GET, 'parent', 0);
-		if ($parentId)
-		{
-			$parent = ORM::factory( $this->modelName, $parentId );
-	        if(!$parent->loaded())
-	        {             
-	            throw HTTP_Exception::factory(404, 'Parent ID not found!');
-	        }
-		}
+        //Parent
+        $parentId = Arr::get($_GET, 'parent', 0);
+        if ($parentId)
+        {
+                $parent = ORM::factory( $this->modelName, $parentId );
+            if(!$parent->loaded())
+            {             
+                throw HTTP_Exception::factory(404, 'Parent ID not found!');
+            }
+        }
 		
-		//Content
+	//Content
         $view = View::factory('scripts/admin/content_category_add');
         $errors = array();        
         $id = Arr::get($_GET, 'id', '');
@@ -268,9 +290,9 @@ class Controller_Admin_Content extends Controller_Auth
             
             if (!$errors)
             {            	
-				$category['structure_id'] = $structure->id;
-				$category['parent_id'] = $parentId;
-				$category['is_category'] = 1;												
+                $category['structure_id'] = $structure->id;
+                $category['parent_id'] = $parentId;
+                $category['is_category'] = 1;												
 				
                 // Save
                 if ($action == "Add") {
@@ -293,8 +315,8 @@ class Controller_Admin_Content extends Controller_Auth
             }
         } 
 
-		$action_url = URL::base(true) . 'admin/content/category?id=' . $id . '&structure=' . $structureName;
-		$action_url .= (!empty($parentId)) ? '&parent='.$parentId : '';
+        $action_url = URL::base(true) . 'admin/content/category?id=' . $id . '&structure=' . $structureName;
+        $action_url .= (!empty($parentId)) ? '&parent='.$parentId : '';
                 
         $view->result = array(  
             'title' => __($action . ' Category'),

@@ -78,6 +78,7 @@ class Controller_Admin_Fields extends Controller_Auth
             $this->template->title = __("Add Field");
             $field = array(
                 'id'=>'', 
+                'type'=>'', 
                 'name'=>'', 
                 'title'=>'',   
                 'i18n'=>'',
@@ -85,6 +86,7 @@ class Controller_Admin_Fields extends Controller_Auth
                 'param1' => '',
                 'param2' => '',
                 'multiply' => '',
+                'required' => '',
             );
         }   
         else {
@@ -96,6 +98,7 @@ class Controller_Admin_Fields extends Controller_Auth
             {
                  $field = array(
                      'id' => $id,
+                     'type' => $edit->type,
                      'name' => $edit->name,
                      'title' => $edit->title,
                      'i18n' => $edit->i18n,                     
@@ -103,6 +106,7 @@ class Controller_Admin_Fields extends Controller_Auth
                      'param1' => $edit->param1,
                      'param2' => $edit->param2,
                      'multiply' => $edit->multiply,
+                     'required' => $edit->required,
                  );
             }
             else
@@ -114,13 +118,15 @@ class Controller_Admin_Fields extends Controller_Auth
         if(!empty($_POST)) 
         {   
             $post = array();
-            $post['name'] = Arr::get($_POST, 'name');
+            $post['type'] = Arr::get($_POST, 'type');
+            $post['name'] = Arr::get($_POST, 'name');            
             $post['title'] = Arr::get($_POST, 'title');            
             $post['i18n'] = Arr::get($_POST, 'i18n', null);
             $post['param1'] = Arr::get($_POST, 'param1', null);
             $post['param2'] = Arr::get($_POST, 'param2', null);
             $post['structure_id'] = Arr::get($_POST, 'structure_id', null);
             $post['multiply'] = (Arr::get($_POST, 'multiply', '') == 'on');
+            $post['required'] = (Arr::get($_POST, 'required', '') == 'on');
             $field = $post;
             
             // Validation

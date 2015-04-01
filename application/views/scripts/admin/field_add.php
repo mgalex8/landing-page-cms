@@ -42,8 +42,8 @@
             <tr>
                 <td class="span2"><?php echo __('Parameter'); ?> 2:</td>
                 <td><input type="text" name="param2" value="<?php echo $result['field']['param2']; ?>" /></td>                    
-            </tr>
-            <tr>
+            </tr>            
+            <tr id="param-multiply" class="hidden">
                 <td class="span2"><?php echo __('Multiply'); ?>:</td>
                 <td><input type="checkbox" name="multiply" <?php if ($result['field']['multiply']){ echo "checked"; } ?>" /></td>                    
             </tr>
@@ -62,3 +62,17 @@
         <input type="hidden" name="structure_id" value="<?php echo $result['field']['structure_id']; ?>" />
     </form>
 <div>
+<script>
+$(document).ready(function(){
+    $('select[name=type]').on('change', function(){
+       if ($(this).val() == 'text' || $(this).val() == 'file')
+       {
+           $('#param-multiply').removeClass('hidden');           
+       }           
+       else
+       {
+           $('input[name=multiply').attr('checked', false);
+       }
+    });    
+});
+</script>

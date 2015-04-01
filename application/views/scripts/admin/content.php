@@ -1,7 +1,7 @@
 <h2><?php echo i18n($result['structure']['i18n'], $result['structure']['title']) ?></h2>
 <div class="row space">
     <div class="span12 ">
-    	<a class="btn btn-info" href="<?php echo $_SERVER['HTTP_REFERER']; ?>"><i class="icon-chevron-left icon-white"></i></a>          
+    	<a class="btn btn-info" href="<?php echo $_SERVER['HTTP_REFERER']; ?>"><i class="icon-chevron-left icon-white"></i></a>
     	<a class="btn btn-success" href="<?php echo $result['add_category_url']; ?>"><i class="icon-ok icon-white"></i> <?php echo __('Add Category'); ?></a>
         <a class="btn btn-success" href="<?php echo $result['add_item_url']; ?>"><i class="icon-ok icon-white"></i> <?php echo __('Add Item'); ?></a>                
         <a class="btn btn-danger remove-btn"><i class="icon-remove icon-white"></i> <?php echo __('Delete selected'); ?></a>

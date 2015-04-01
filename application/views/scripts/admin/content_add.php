@@ -31,30 +31,45 @@
                     <tr>
                     <td class="span2"><?php echo i18n($field['i18n'], $field['title']; ?><?php if ($field['required'] == 1): ?>*<?php endif; ?>:</td>
             <?php
-                    if ($field['type'] == 'text') :
-            ?>
-                        <td><input type="text" name="field[<?php echo $field['name']; ?>]" value="<?php echo $result['field_values'][$field['name']]; ?>" /></td>
+            
+                    // TEXT, FILE, HIDDEN
+                    if ($field['type'] == 'text' || $field['type'] == 'file' || $field['type'] == 'hidden') :
+                        $field_type = $field['type'];
+                        if ($field['type'] == 'hidden')
+                            $field_type = 'text';
+                        if ($field['multiple']) :
+            ?>  
+                            <td id="field<?php $field['id']; ?>">
+                                <div>
+                                    <input type="<?php echo $field_type; ?>" name="field[<?php echo $field['name']; ?>][]" value="<?php echo $result['field_values'][$field['name']]; ?>" />
+                                    <input type="<?php echo $field_type; ?>" name="field[<?php echo $field['name']; ?>][]" value="<?php echo $result['field_values'][$field['name']]; ?>" />
+                                    <input type="<?php echo $field_type; ?>" name="field[<?php echo $field['name']; ?>][]" value="<?php echo $result['field_values'][$field['name']]; ?>" />
+                                </div>
+                                <div>
+                                    <a class="btn btn-success" href="javascript:void()"><i class="icon-chevron-left icon-white"></i><?php echo __('Add'); ?></a>
+                                </div>
+                            </td>
+            <?php       else : ?>
+                            <td id="field<?php $field['id']; ?>"><input type="<?php echo $field_type; ?>" name="field[<?php echo $field['name']; ?>]" value="<?php echo $result['field_values'][$field['name']]; ?>" /></td>
             <?php 
-                    elseif ($field['type'] == 'file') :
-            ?>
-                        <td><input type="file" name="field[<?php echo $field['name']; ?>]" value="<?php echo $result['field_values'][$field['name']]; ?>" /></td>
-            <?php 
-                    elseif ($field['type'] == 'hidden') :
-            ?>
-                        <td><input type="hidden" name="field[<?php echo $field['name']; ?>]" value="<?php echo $result['field_values'][$field['name']]; ?>" /></td>
-            <?php 
+                        endif;
+                        
+                    // CHECKBOX    
                     elseif ($field['type'] == 'checkbox') :
             ?>
-                        <td><input type="chackbox" name="field[<?php echo $field['name']; ?>]"<?php if($result['field_values'][$field['name']] == 'on'): ?> checked<?php endif; ?> /></td>
+                            <td id="field<?php $field['id']; ?>"><input type="chackbox" name="field[<?php echo $field['name']; ?>]"<?php if($result['field_values'][$field['name']] == 'on'): ?> checked<?php endif; ?> /></td>
             <?php 
+            
+                    // TEXTAREA
                     elseif ($field['type'] == 'textarea') :
             ?>
-                        <td><textarea name="field[<?php echo $field['name']; ?>]"><?php echo $result['field_values'][$field['name']]; ?></textarea></td>
+                            <td id="field<?php $field['id']; ?>"><textarea name="field[<?php echo $field['name']; ?>]"><?php echo $result['field_values'][$field['name']]; ?></textarea></td>
             <?php 
+            
+                    // SELECT
                     elseif ($field['type'] == 'select') :
             ?>
-                        <td><select name="field[<?php echo $field['name']; ?>]">
-                        </select></td>
+                            <td id="field<?php $field['id']; ?>"><select name="field[<?php echo $field['name']; ?>]"></select></td>
             <?php 
                     endif; 
             ?>

@@ -33,27 +33,27 @@
             <?php
                     if ($field['type'] == 'text') :
             ?>
-                        <td><input type="text" name="<?php echo $field['name']; ?>" value="<?php echo $result['field_values'][$field['name']]; ?>" /></td>
+                        <td><input type="text" name="field[<?php echo $field['name']; ?>]" value="<?php echo $result['field_values'][$field['name']]; ?>" /></td>
             <?php 
                     elseif ($field['type'] == 'file') :
             ?>
-                        <td><input type="file" name="<?php echo $field['name']; ?>" value="<?php echo $result['field_values'][$field['name']]; ?>" /></td>
+                        <td><input type="file" name="field[<?php echo $field['name']; ?>]" value="<?php echo $result['field_values'][$field['name']]; ?>" /></td>
             <?php 
                     elseif ($field['type'] == 'hidden') :
             ?>
-                        <td><input type="hidden" name="<?php echo $field['name']; ?>" value="<?php echo $result['field_values'][$field['name']]; ?>" /></td>
+                        <td><input type="hidden" name="field[<?php echo $field['name']; ?>]" value="<?php echo $result['field_values'][$field['name']]; ?>" /></td>
             <?php 
                     elseif ($field['type'] == 'checkbox') :
             ?>
-                        <td><input type="chackbox" name="<?php echo $field['name']; ?>"<?php if($result['field_values'][$field['name']] == 'on'): ?> checked<?php endif; ?> /></td>
+                        <td><input type="chackbox" name="field[<?php echo $field['name']; ?>]"<?php if($result['field_values'][$field['name']] == 'on'): ?> checked<?php endif; ?> /></td>
             <?php 
                     elseif ($field['type'] == 'textarea') :
             ?>
-                        <td><textarea name="<?php echo $field['name']; ?>"><?php echo $result['field_values'][$field['name']]; ?></textarea></td>
+                        <td><textarea name="field[<?php echo $field['name']; ?>]"><?php echo $result['field_values'][$field['name']]; ?></textarea></td>
             <?php 
                     elseif ($field['type'] == 'select') :
             ?>
-                        <td><select name="<?php echo $field['name']; ?>">
+                        <td><select name="field[<?php echo $field['name']; ?>]">
                         </select></td>
             <?php 
                     endif; 
